@@ -1,0 +1,33 @@
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library (tuber)
+```
+
+
+```{r}
+app_id <- "1088891801215-srtv9mvhb4dt1qr62254vfcgqfg9cp33.apps.googleusercontent.com"
+app_secret <- "hyJRTIMMvnBNj6WKE6jIzcXa"
+yt_oauth(app_id, app_secret)
+```
+
+```{r}
+get_stats(video_id='8XAfjB0fVas')
+```
+
+```{r}
+get_video_details(video_id='8XAfjB0fVas')
+```
+
+```{r}
+get_channel_stats(channel_id='UCd3zZSCsHS-7smn2HwgM0FA')
+```
+
+```{r}
+list_channel_videos(channel_id = 'UCd3zZSCsHS-7smn2HwgM0FA',max_results = 3)
+```
+
+
