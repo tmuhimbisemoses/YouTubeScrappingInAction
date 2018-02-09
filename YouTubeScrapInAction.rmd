@@ -1,0 +1,92 @@
+---
+title: "YouTube Data Scrapping In Action: Experiences of a novice"
+output: "."
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+You Tube as any other social media platform provides a rich trove of data. One can put use of such information through in many ways. Tickled by the curiosity of the popularity of well known domestic and international standup comedian Anne Kansiime, I took upon the challenge of scraping data from her You Tube channel with the hope that I could provide some statistically driven insights into the notoriety of her online content. 
+R providers a package known as tuber with the latest version available for download through the CRAN repository.
+
+Install.packages("tuber")
+
+After installing the package, we load it into our development environment and then any tinkering with this impressive tool can begin.
+
+```{r}
+library (tuber)
+```
+
+Before the tuber package can be used fully, perquisites demand that one holds Google Developer Console credentials so as to allow one to access the You Tube API. I found the following tutorial (with step by step images) useful to setting up You Tube Oauth details.
+
+(https://help.aolonnetwork.com/hc/en-us/articles/218079623-How-to-Create-Your-YouTube-API-Credentials)
+
+I recommend testing whether you can connect to the You Tube API with ease as the first step before any data scraping. The following snippet below is helpful in determining whether you were able to correct generate the required API credentials.
+
+```{r}
+app_id <- "1088891801215-srtv9mvhb4dt1qr62254vfcgqfg9cp33.apps.googleusercontent.com"
+app_secret <- "hyJRTIMMvnBNj6WKE6jIzcXa"
+yt_oauth(app_id, app_secret)
+```
+
+After successfully connecting to the API, you should be redirected to the following web page with the following message.
+
+```{r echo=FALSE, out.width='100%'}
+knitr::include_graphics('./oauth.jpg')
+```
+
+Now on to the data scraping.
+I began by extracting the statistics of a single video. In order to do this, I got the video id. A You Tube video id entails the alpha numeric figures after the equals sign within the link. 
+
+```{r echo=FALSE, out.width='100%'}
+knitr::include_graphics('./video_id.jpg')
+```
+
+With the video id, we can now extract some statistics of the video using the line below. I chose to place the newly extracted data in a data frame for easy referencing.
+
+This produces the following output
+
+```{r}
+get_stats(video_id='8XAfjB0fVas')
+```
+
+From the information extracted, we can see that this particular video was viewed 479,534 times, was liked 2,319 times, was disliked 110 times and 185 comments were made.
+
+Additional details about the video can be extracted using the following snippet
+
+```{r}
+get_video_details(video_id='8XAfjB0fVas')
+```
+
+The video was uploaded on 3rd October 2015. Other information includes some of the tags embedded to increase search engine optimization.
+
+
+More data can be extracted from the You Tube channel, however in order to achieve this,one needs to known the channel id. I found it difficult to find this information. However, after a few minutes of Stack Overflow browsing, I stumbled upon a You Tube channel name converter by Johnny the Tank (http://johnnythetank.github.io/youtube-channel-name-converter/). You simply type in the channel name and it generates the channel id.
+
+```{r echo=FALSE, out.width='100%'}
+knitr::include_graphics('./johny.jpg')
+```
+
+With the channel id, one can tinker around with functions such as extracting channel statistics
+
+```{r}
+get_channel_stats(channel_id='UCd3zZSCsHS-7smn2HwgM0FA')
+```
+
+From the out above, we observe the channel was first created on 17th April 2012.
+
+These along other snippets of information are returned by the code get_channel_stats function.
+The function below lists all the channel videos. However, since the channel has over 560 videos, we include the max_results parameter to output only 3 results to make a more lean post.
+
+```{r}
+list_channel_videos(channel_id = 'UCd3zZSCsHS-7smn2HwgM0FA',max_results = 3)
+```
+
+Unfortunately or fortunately, the information provide by this function does not return the videos by title but rather id. It would only take one familiar with the package to interpret this output. For sake of easy identification, I have marked the video id.
+
+```{r echo=FALSE, out.width='100%'}
+knitr::include_graphics('./all video.jpg')
+```
+
